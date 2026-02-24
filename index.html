@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Моє портфоліо</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+.contact {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.contact h2 {
+  margin-bottom: 20px;
+  color: orangered;
+}
+
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: none;
+}
+
+.contact-form textarea {
+  height: 120px;
+}
+
+.contact-form button {
+  background: linear-gradient(135deg, orangered, gold);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.contact-form button:hover {
+  transform: scale(1.05);
+}
+
+     .hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #fff5f0, #ffffff);
+  padding: 0px 20px;
+}
+
+.hero-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h1 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  color: orangered;
+}
+
+.hero-text p {
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 12px 25px;
+  background: linear-gradient(135deg, orangered, gold);
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+}
+
+.btn-secondary {
+  padding: 12px 25px;
+  border: 2px solid orangered;
+  color: orangered;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  background: orangered;
+  color: white;
+}
+
+.hero-image img {
+  width: 300px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  transition: 0.4s ease;
+}
+
+.hero-image img:hover {
+  transform: scale(1.05);
+}
+   
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      z-index: 1000;
+   }
+
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: orangered;
+   }
+
+    .nav a {
+       margin-left: 25px;
+       text-decoration: none;
+       color: #333;
+       font-weight: 500;
+       position: relative;
+       transition: 0.3s;
+    }
+
+    .nav a::after {
+       content: "";
+       position: absolute;
+       left: 0;
+       bottom: -5px;
+       width: 0;
+       height: 2px;
+       background: orangered;
+       transition: 0.3s;
+    }
+
+    .nav a:hover {
+       color: orangered;
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .header {
+       position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: orangered;
+    }
+
+    .nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background: orangered;
+      transition: 0.3s;
+    }
+
+      .nav a:hover {
+      color: orangered;
+    }
+
+      .nav a:hover::after {
+      width: 100%;
+    }
+      body {
+      padding-top: 80px;
+    }
+
+
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: orangered;
+    }
+
+    /* Кнопки */
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    button {
+      background-color: rgb(126,128,0);
+      color: black;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+      width: 220px;
+    }
+
+    button:hover {
+      background-color: yellowgreen;
+    }
+
+    /* Темна тема */
+    .dark {
+      background-color: #1e1e1e;
+      color: white;
+    }
+
+    .dark .card {
+      background-color: #2c2c2c;
+    }
+
+    /* Список проектів */
+    .projects {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Карточка */
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .card-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: 0.4s;
+    }
+
+    .card-image:hover img {
+      transform: scale(1.1);
+    }
+
+    .image-link {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .card-image:hover .image-link {
+      opacity: 1;
+    }
+
+    .card-content {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .card-content h3 {
+      margin: 0 0 10px 0;
+    }
+
+    .card-content i {
+      margin-right: 8px;
+      color: orangered;
+    }
+
+    #phone {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+   <section class="contact">
+  <h2>Контакти</h2>
+
+  <form action="https://formspree.io/f/xbdapnlp" method="POST" class="contact-form">
+    
+    <input type="text" name="name" placeholder="Ваше ім’я" required>
+    
+    <input type="email" name="email" placeholder="Ваш email" required>
+    
+    <textarea name="message" placeholder="Ваше повідомлення" required></textarea>
+    
+    <button type="submit">Надіслати</button>
+
+    </form>
+  </section> 
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Привіт 👋 Я Сергій</h1>
+      <p>Майбутній Frontend розробник, який створює сучасні та адаптивні сайти.</p>
+
+      <div class="hero-buttons">
+        <a href="#projects" class="btn-primary">Мої проекти</a>
+        <a href="#contact" class="btn-secondary">Зв'язатися</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="images/me.jpg" alt="Сергій">
+    </div>
+  </div>
+</section>
+
+  <main class="container">
+    <header class="header">
+  <div class="header-container">
+    <div class="logo">Сергій</div>
+
+    <nav class="nav">
+      <a href="#about">Про мене</a>
+      <a href="#projects">Проекти</a>
+      <a href="#contact">Контакти</a>
+    </nav>
+  </main>
+    </header>
+
+    <h1 id="about">Сергій – майбутній Frontend розробник</h1>
+
+    <div class="buttons">
+      <section id="contact"></section>
+      <button id="themeButton">Темна тема</button>
+      <button id="myButton">Зв'язатися зі мною</button>
+      <p id="phone" class="hidden">+380 00 000 00 00</p>
+      <button id="projectsButton">Мої проекти</button>
+    </div>
+
+    <div id="projectsList" class="projects hidden">
+
+      <!-- Проект 1 -->
+      <div class="card">
+        <div class="card-image">
+          <img src="images/project1.jpg" alt="Мій перший сайт">
+          <a href="project1.html" class="image-link">Переглянути</a>
+        </div>
+        <div class="card-content">
+          <h3><i class="fa-solid fa-globe"></i> Мій перший сайт</h3>
+          <p>Простий сайт на HTML та CSS</p>
+        </div>
+      </div>
+
+      <!-- Проект 2 -->
+      <div class="card">
+        <div class="card-image">
+          <img src="images/visitka.jpg" alt="Сайт візитка">
+          <a href="visitka.html" class="image-link">Переглянути</a>
+        </div>
+        <div class="card-content">
+          <h3><i class="fa-solid fa-id-card"></i> Сайт візитка</h3>
+          <p>Адаптивний сайт з анімацією та перемиканням теми</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+      const themeButton = document.getElementById("themeButton");
+      const projectsButton = document.getElementById("projectsButton");
+      const projectsList = document.getElementById("projectsList");
+      const button = document.getElementById("myButton");
+      const phone = document.getElementById("phone");
+
+
+      // Темная тема
+      themeButton.addEventListener("click", function() {
+      document.body.classList.toggle("dark");
+
+      themeButton.textContent =
+       document.body.classList.contains("dark")
+         ? "Світла тема"
+         : "Темна тема";
+    });
+
+
+      // Проекты
+     projectsButton.addEventListener("click", function() {
+  projectsList.classList.toggle("hidden");
+
+  const isHidden = projectsList.classList.contains("hidden");
+
+  projectsButton.textContent = isHidden
+    ? "Мої проекти"
+    : "Сховати проекти";
+
+  localStorage.setItem("projectsOpen", !isHidden);
+});
+
+
+      // Телефон
+     button.addEventListener("click", function() {
+     phone.classList.toggle("hidden");
+
+     button.textContent = phone.classList.contains("hidden")
+        ? "Зв'язатися зі мною"
+        : "Сховати номер";
+    });
+
+
+      // Проверка при загрузке страницы
+     window.addEventListener("load", function() {
+     const projectsOpen = localStorage.getItem("projectsOpen");
+
+       if (projectsOpen === "true") {
+     projectsList.classList.remove("hidden");
+     projectsButton.textContent = "Сховати проекти";
+       }
+    });
+  </script>
+
+</body>
+</html>
