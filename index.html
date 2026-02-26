@@ -323,18 +323,37 @@ button:hover {
   color: orangered;
 }
 @media (max-width: 768px) {
-  .hero-content {
-    justify-content: center;
-    text-align: center;
+
+  .hero {
+    padding: 25px 16px;
   }
 
-  .hero-image {
+  .hero-text h1 {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .hero-text p {
+    font-size: 17px;
+    margin-bottom: 20px;
+  }
+
+  .hero-buttons {
+    gap: 10px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    padding: 11px;
+    font-size: 16px;
   }
-}
 
+  .hero-image img {
+    width: 220px;
+  }
+
+}
   </style>
 </head>
 
