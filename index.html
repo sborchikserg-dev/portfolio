@@ -328,6 +328,11 @@ button:hover {
     padding: 25px 16px;
   }
 
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
   .hero-text h1 {
     font-size: 30px;
     line-height: 1.2;
@@ -340,13 +345,20 @@ button:hover {
 
   .hero-buttons {
     gap: 10px;
+    justify-content: center;
   }
 
   .btn-primary,
   .btn-secondary {
-    width: 100%;
+    width: 220px;
     padding: 11px;
     font-size: 16px;
+  }
+
+  .hero-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   .hero-image img {
