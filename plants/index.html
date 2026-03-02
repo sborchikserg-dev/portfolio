@@ -25,6 +25,11 @@
     @media (max-width:800px){ .hero-box{grid-template-columns:1fr} .btn-secondary{display:inline-block;margin:10px 0 0} }
     .btn-view{display:inline-block;margin-top:12px;padding:8px 14px;background:#2e7d32;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;transition:.3s}
     .btn-view:hover{background:#1b5e20}
+    .card-image{position:relative;overflow:hidden}
+    .card-image img{width:100%;height:250px;object-fit:cover;display:block;transition:.4s}
+    .image-link{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);color:#fff;text-decoration:none;font-weight:600;opacity:0;transition:.3s}
+    .card-image:hover img{transform:scale(1.08)}
+    .card-image:hover .image-link{opacity:1}
   </style>
 </head>
 <body>
@@ -61,55 +66,69 @@
       </div>
     </div>
   </section>
-
   <section id="catalog">
-    <h2>Каталог</h2>
-    <div class="grid">
-      <article class="card">
-        <img src="images/strawberry.jpeg" alt="Фікус">
-        <div class="p">
-          <h3>Листяні дерева</h3>
-          <div class="price">250 грн</div>
-          <a href="lystiani-dereva.html" class="btn-view">Переглянути</a>
-        </div>
-      </article>
+  <h2>Каталог</h2>
 
-      <article class="card">
-        <img src="images/plant2.jpg" alt="Сансевієрія">
-        <div class="p">
-          <h3>Листяні чагарники</h3>
-          <div class="price">290 грн</div>
-          <a href="lystiani-chagarnyky.html" class="btn-view">Переглянути</a>
-        </div>
-      </article>
+  <div class="grid">
 
-      <article class="card">
-        <img src="images/plant3.jpg" alt="Монстера">
-        <div class="p">
-          <h3>Хвойні</h3>
-          <div class="price">350 грн</div>
-          <a href="khvoini.html" class="btn-view">Переглянути</a>
-        </div>
-      </article>
-      <article class="card">
-  <img src="images/zlaky.jpg" alt="Злаки">
-  <div class="p">
-    <h3>Злаки</h3>
-    <div class="price">від 150 грн</div>
-    <a href="zlaky.html" class="btn-view">Переглянути</a>
-  </div>
-</article>
+    <article class="card">
+      <div class="card-image">
+        <img src="images/strawberry.jpeg" alt="Листяні дерева">
+        <a href="lystiani-dereva.html" class="image-link">Переглянути</a>
+      </div>
+      <div class="p">
+        <h3>Листяні дерева</h3>
+        <div class="price">від 250 грн</div>
+      </div>
+    </article>
 
-<article class="card">
-  <img src="images/agrohim.jpg" alt="Агрохімія">
-  <div class="p">
-    <h3>Агрохімія</h3>
-    <div class="price">від 120 грн</div>
-    <a href="agrohim.html" class="btn-view">Переглянути</a>
-  </div>
-  </article>
-    </div>
+    <article class="card">
+      <div class="card-image">
+        <img src="images/chagarnyky.jpg" alt="Листяні чагарники">
+        <a href="lystiani-chagarnyky.html" class="image-link">Переглянути</a>
+      </div>
+      <div class="p">
+        <h3>Листяні чагарники</h3>
+        <div class="price">від 220 грн</div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-image">
+        <img src="images/khvoini.jpg" alt="Хвойні">
+        <a href="khvoini.html" class="image-link">Переглянути</a>
+      </div>
+      <div class="p">
+        <h3>Хвойні</h3>
+        <div class="price">від 300 грн</div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-image">
+        <img src="images/zlaky.jpg" alt="Злаки">
+        <a href="zlaky.html" class="image-link">Переглянути</a>
+      </div>
+      <div class="p">
+        <h3>Злаки</h3>
+        <div class="price">від 150 грн</div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-image">
+        <img src="images/agrohim.jpg" alt="Агрохімія">
+        <a href="agrohim.html" class="image-link">Переглянути</a>
+      </div>
+      <div class="p">
+        <h3>Агрохімія</h3>
+        <div class="price">від 120 грн</div>
+      </div>
+     </article>
+
+     </div>
   </section>
+  
 
   <section id="delivery" style="margin-top:32px">
     <h2>Доставка та оплата</h2>
