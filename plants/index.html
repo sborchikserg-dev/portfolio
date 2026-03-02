@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Рослини • Магазин</title>
+  <style>
+    body{margin:0;font-family:system-ui,sans-serif;background:#f6f6f6;color:#222}
+    header{position:sticky;top:0;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    nav{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .logo{font-weight:800}
+    .links a{margin-left:14px;text-decoration:none;color:#222}
+    .hero{padding:48px 0}
+    .hero-box{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center}
+    .btn{display:inline-block;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:700}
+    .btn-primary{background:#2e7d32;color:#fff}
+    .btn-secondary{border:2px solid #2e7d32;color:#2e7d32;margin-left:10px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.08)}
+    .card img{width:100%;height:160px;object-fit:cover;display:block}
+    .card .p{padding:14px}
+    .price{font-weight:800}
+    footer{padding:28px 0;color:#555}
+    @media (max-width:800px){ .hero-box{grid-template-columns:1fr} .btn-secondary{display:inline-block;margin:10px 0 0} }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="logo">🌿 GreenShop</div>
+      <div class="links">
+        <a href="#catalog">Каталог</a>
+        <a href="#delivery">Доставка</a>
+        <a href="#contacts">Контакти</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-box">
+      <div>
+        <h1>Рослини для дому та подарунків</h1>
+        <p>Підберемо рослину під ваш інтер’єр. Є підбір, пересадка та консультація.</p>
+        <a class="btn btn-primary" href="#catalog">Перейти в каталог</a>
+        <a class="btn btn-secondary" href="#contacts">Написати</a>
+      </div>
+      <div class="card">
+        <img src="images/hero-plant.jpg" alt="Рослина">
+        <div class="p">
+          <div><strong>Хіт тижня:</strong> Монстера</div>
+          <div class="price">від 350 грн</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalog">
+    <h2>Каталог</h2>
+    <div class="grid">
+      <article class="card">
+        <img src="images/plant1.jpg" alt="Фікус">
+        <div class="p">
+          <h3>Фікус</h3>
+          <div class="price">420 грн</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="images/plant2.jpg" alt="Сансевієрія">
+        <div class="p">
+          <h3>Сансевієрія</h3>
+          <div class="price">290 грн</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="images/plant3.jpg" alt="Монстера">
+        <div class="p">
+          <h3>Монстера</h3>
+          <div class="price">350 грн</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="delivery" style="margin-top:32px">
+    <h2>Доставка та оплата</h2>
+    <p>Самовивіз або доставка по місту. Відправка Новою Поштою. Оплата: готівка/переказ.</p>
+  </section>
+
+  <section id="contacts" style="margin-top:32px">
+    <h2>Контакти</h2>
+    <p>Напишіть нам у месенджер — швидко підберемо рослину.</p>
+    <p>
+      <a class="btn btn-primary" href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a>
+      <a class="btn btn-secondary" href="https://instagram.com/USERNAME" target="_blank" rel="noopener">Instagram</a>
+    </p>
+  </section>
+
+  <footer>
+    © <span id="y"></span> GreenShop
+  </footer>
+
+</main>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
