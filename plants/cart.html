@@ -40,10 +40,25 @@ a.back{display:inline-block;text-decoration:none;background:#2e7d32;color:#fff;p
 .field textarea{min-height:86px;resize:vertical}
 .form__actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:2px}
 @media (max-width:700px){.modal__panel{margin:0;min-height:100%;border-radius:0}}
+.toast{position:fixed;inset:0;display:none;place-items:center;z-index:3000;padding:16px;background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
+.toast.show{display:grid;animation:fadeIn .18s ease}
+.toast__card{width:min(520px,100%);background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.25);padding:18px 16px;text-align:center;transform:translateY(12px) scale(.98);animation:pop .22s ease forwards}
+.toast__icon{width:56px;height:56px;margin:0 auto 10px;border-radius:16px;background:rgba(46,125,50,.12);display:grid;place-items:center;font-size:28px}
+.toast__title{font-weight:900;font-size:18px;color:#1f2a1f}
+.toast__text{margin-top:6px;color:#566;font-weight:600}
+@keyframes pop{to{transform:translateY(0) scale(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 
 <body>
+ <div id="toast" class="toast" aria-live="polite">
+  <div class="toast__card">
+    <div class="toast__icon">✅</div>
+    <div class="toast__title">Замовлення відправлено</div>
+    <div class="toast__text">Дякуємо! Ми зв’яжемось з вами найближчим часом.</div>
+  </div>
+</div>
 
 <div class="wrap">
 
@@ -141,7 +156,7 @@ function render(){
   if(cart.length===0){
     box.innerHTML="";
     emptyHint.style.display="block";
-  } else {
+  }else{
     emptyHint.style.display="none";
     box.innerHTML=cart.map((item,idx)=>{
       const q=Number(item.qty)||1;
@@ -164,10 +179,13 @@ function render(){
   }
 
   const checkoutBtn=document.getElementById("checkoutBtn");
-  checkoutBtn.disabled = cart.length===0;
-  checkoutBtn.style.opacity = cart.length? "1" : ".5";
+  if(checkoutBtn){
+    checkoutBtn.disabled = cart.length===0;
+    checkoutBtn.style.opacity = cart.length ? "1" : ".5";
+  }
 }
 
+/* +/- / remove */
 document.addEventListener("click",(e)=>{
   const btn=e.target.closest("[data-act]");
   if(!btn) return;
@@ -185,12 +203,13 @@ document.addEventListener("click",(e)=>{
   render();
 });
 
+/* clear cart */
 document.getElementById("clear").addEventListener("click",()=>{
   setCart([]);
   render();
 });
 
-/* Checkout modal */
+/* modal */
 const modal=document.getElementById("checkoutModal");
 const checkoutBtn=document.getElementById("checkoutBtn");
 const form=document.getElementById("checkoutForm");
@@ -199,17 +218,18 @@ function openModal(){
   modal.classList.add("open");
   modal.setAttribute("aria-hidden","false");
 }
-
 function closeModal(){
   modal.classList.remove("open");
   modal.setAttribute("aria-hidden","true");
 }
 
-checkoutBtn.addEventListener("click",()=>{
-  const cart=getCart();
-  if(!cart.length){ alert("Кошик порожній 🙂"); return; }
-  openModal();
-});
+if(checkoutBtn){
+  checkoutBtn.addEventListener("click",()=>{
+    const cart=getCart();
+    if(!cart.length){ alert("Кошик порожній 🙂"); return; }
+    openModal();
+  });
+}
 
 modal.addEventListener("click",(e)=>{
   if(e.target.closest("[data-close]")) closeModal();
@@ -219,19 +239,27 @@ document.addEventListener("keydown",(e)=>{
   if(e.key==="Escape" && modal.classList.contains("open")) closeModal();
 });
 
+/* toast */
+const toast=document.getElementById("toast");
+function showToast(){
+  if(!toast) return;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),1800);
+}
+
+/* submit -> open telegram + clear cart + success toast */
 form.addEventListener("submit",(e)=>{
   e.preventDefault();
 
   const cart=getCart();
   if(!cart.length){ alert("Кошик порожній 🙂"); closeModal(); return; }
+  if(!TG_USERNAME || TG_USERNAME==="YOUR_USERNAME"){ alert("Вкажи TG_USERNAME у cart.html"); return; }
 
   const name=document.getElementById("cName").value.trim();
   const phone=document.getElementById("cPhone").value.trim();
   const address=document.getElementById("cAddress").value.trim();
   const pay=document.getElementById("cPay").value;
   const note=document.getElementById("cNote").value.trim();
-
-  if(!TG_USERNAME || TG_USERNAME==="YOUR_USERNAME"){ alert("Вкажи TG_USERNAME у cart.html"); return; }
 
   const lines=cart.map(i=>{
     const q=Number(i.qty)||1;
@@ -253,12 +281,24 @@ ${lines.join("\n")}
 Оплата: ${pay}${note?`\nКоментар: ${note}`:""}`;
 
   const text=encodeURIComponent(msg);
+
+  const submitBtn=form.querySelector('button[type="submit"]');
+  if(submitBtn){ submitBtn.disabled=true; submitBtn.style.opacity=".7"; }
+
   window.open(`https://t.me/${TG_USERNAME}?text=${text}`,"_blank");
-  closeModal();
+
+  setCart([]);      // ✅ auto clear
+  render();         // ✅ update UI
+  closeModal();     // close form
+  showToast();      // ✅ success notification
+
+  setTimeout(()=>{
+    if(submitBtn){ submitBtn.disabled=false; submitBtn.style.opacity="1"; }
+    form.reset();
+  },1200);
 });
 
 render();
 </script>
-
 </body>
 </html>
