@@ -1,113 +1,264 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кошик</title>
-  <style>
-    body{margin:0;font-family:system-ui,sans-serif;background:#f4f7f3;padding:24px}
-    .wrap{max-width:900px;margin:0 auto}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-    a.back{display:inline-block;text-decoration:none;background:#2e7d32;color:#fff;padding:8px 14px;border-radius:10px;font-weight:700}
-    .card{background:#fff;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.08);padding:16px;margin-top:14px}
-    .row{display:grid;grid-template-columns:1fr 110px 140px 110px;gap:10px;align-items:center}
-    .row b{font-size:16px}
-    .qty{display:flex;gap:8px;align-items:center;justify-content:flex-start}
-    .qty button{width:32px;height:32px;border-radius:10px;border:1px solid rgba(0,0,0,.15);background:#fff;cursor:pointer;font-weight:800}
-    .remove{background:#fff;border:1px solid rgba(0,0,0,.15);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
-    .total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-weight:800}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:12px;text-decoration:none;font-weight:800}
-    .btn-primary{background:#2e7d32;color:#fff}
-    .btn-ghost{background:#fff;border:1px solid rgba(0,0,0,.15);color:#1f2a1f}
-    .empty{color:#566; margin-top:14px}
-    @media (max-width:700px){ .row{grid-template-columns:1fr 120px;grid-auto-rows:auto} .row .price,.row .sum,.row .remove{justify-self:start} }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кошик</title>
+
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f7f3;padding:24px}
+.wrap{max-width:900px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+a.back{display:inline-block;text-decoration:none;background:#2e7d32;color:#fff;padding:8px 14px;border-radius:10px;font-weight:700}
+.card{background:#fff;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.08);padding:16px;margin-top:14px}
+.row{display:grid;grid-template-columns:1fr 110px 140px 110px 110px;gap:10px;align-items:center}
+.row b{font-size:16px}
+.qty{display:flex;gap:8px;align-items:center}
+.qty button{width:32px;height:32px;border-radius:10px;border:1px solid rgba(0,0,0,.15);background:#fff;cursor:pointer;font-weight:800}
+.remove{background:#fff;border:1px solid rgba(0,0,0,.15);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+.total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-weight:800}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn{display:inline-block;padding:10px 14px;border-radius:12px;text-decoration:none;font-weight:800;border:none;cursor:pointer}
+.btn-primary{background:orangered;color:#fff}
+.btn-ghost{background:#fff;border:1px solid rgba(0,0,0,.15);color:#1f2a1f}
+.empty{color:#566;margin-top:14px}
+@media (max-width:700px){.row{grid-template-columns:1fr 120px;grid-auto-rows:auto}}
+
+/* Modal checkout */
+.modal{position:fixed;inset:0;display:none;z-index:2000}
+.modal.open{display:block}
+.modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.modal__panel{position:relative;max-width:560px;margin:6vh auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);padding:16px}
+.modal__head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.modal__title{font-weight:900;font-size:18px}
+.modal__sub{color:#566;font-size:14px;margin-top:2px}
+.modal__x{border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:10px;width:36px;height:36px;cursor:pointer;font-weight:900}
+.form{margin-top:12px;display:grid;gap:12px}
+.field{display:grid;gap:6px}
+.field span{font-weight:700;color:#1f2a1f}
+.field input,.field textarea,.field select{width:100%;box-sizing:border-box;border:1px solid rgba(0,0,0,.15);border-radius:12px;padding:10px 12px;font:inherit}
+.field textarea{min-height:86px;resize:vertical}
+.form__actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:2px}
+@media (max-width:700px){.modal__panel{margin:0;min-height:100%;border-radius:0}}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="top">
-      <a class="back" href="index.html">← Назад до магазину</a>
-      <div>🛒 Кошик: <span id="cartCount">0</span></div>
-    </div>
 
-    <div id="cartBox" class="card"></div>
+<div class="wrap">
 
-    <div class="card">
-      <div class="total">
-        <div>Разом:</div>
-        <div><span id="total">0</span> грн</div>
-      </div>
-      <div class="actions">
-        <button class="btn btn-ghost" id="clear">Очистити кошик</button>
-        <a class="btn btn-primary" id="checkout" href="#" target="_blank" rel="noopener">Оформити (Telegram)</a>
-      </div>
-      <div class="empty" id="emptyHint" style="display:none;">Кошик порожній. Додайте товари з каталогу 🙂</div>
-    </div>
+  <div class="top">
+    <a class="back" href="index.html">← Назад до магазину</a>
+    <div>🛒 Кошик: <span id="cartCount">0</span></div>
   </div>
 
+  <div id="cartBox" class="card"></div>
+
+  <div class="card">
+    <div class="total">
+      <div>Разом:</div>
+      <div><span id="total">0</span> грн</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-ghost" id="clear" type="button">Очистити кошик</button>
+      <button class="btn btn-primary" id="checkoutBtn" type="button">Оформити</button>
+    </div>
+
+    <div class="empty" id="emptyHint" style="display:none;">Кошик порожній. Додайте товари з каталогу 🙂</div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" id="checkoutModal" aria-hidden="true">
+  <div class="modal__backdrop" data-close="1"></div>
+
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="modal__head">
+      <div>
+        <div class="modal__title" id="checkoutTitle">Оформлення замовлення</div>
+        <div class="modal__sub">Оберіть оплату та введіть адресу доставки</div>
+      </div>
+      <button class="modal__x" type="button" data-close="1">✕</button>
+    </div>
+
+    <form class="form" id="checkoutForm">
+      <label class="field">
+        <span>Ім’я</span>
+        <input id="cName" required placeholder="Ваше ім’я">
+      </label>
+
+      <label class="field">
+        <span>Телефон</span>
+        <input id="cPhone" required placeholder="+380..." inputmode="tel">
+      </label>
+
+      <label class="field">
+        <span>Адреса доставки</span>
+        <textarea id="cAddress" required placeholder="Місто, вулиця, будинок, квартира"></textarea>
+      </label>
+
+      <label class="field">
+        <span>Спосіб оплати</span>
+        <select id="cPay" required>
+          <option value="">Оберіть спосіб оплати</option>
+          <option value="Готівка при отриманні">Готівка при отриманні</option>
+          <option value="Карткою при отриманні">Карткою при отриманні</option>
+          <option value="Переказ на картку">Переказ на картку</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Коментар (необов’язково)</span>
+        <textarea id="cNote" placeholder="Наприклад: дзвонити перед доставкою"></textarea>
+      </label>
+
+      <div class="form__actions">
+        <button class="btn btn-ghost" type="button" data-close="1">Скасувати</button>
+        <button class="btn btn-primary" type="submit">Підтвердити</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
-  const TG_USERNAME = "USERNAME"; // <- заміни на Telegram юзернейм (без @)
+const TG_USERNAME="serhii_store"; // <- заміни на свій Telegram username (без @)
 
-  function getCart(){ return JSON.parse(localStorage.getItem("cart") || "[]"); }
-  function setCart(cart){ localStorage.setItem("cart", JSON.stringify(cart)); }
-  function cartCount(cart){ return cart.reduce((s,i)=>s+i.qty,0); }
-  function cartTotal(cart){ return cart.reduce((s,i)=>s+i.qty*i.price,0); }
+function getCart(){return JSON.parse(localStorage.getItem("cart")||"[]")}
+function setCart(cart){localStorage.setItem("cart",JSON.stringify(cart))}
+function cartCount(cart){return cart.reduce((s,i)=>s+(Number(i.qty)||1),0)}
+function cartTotal(cart){return cart.reduce((s,i)=>{const q=Number(i.qty)||1;const p=Number(i.price)||0;return s+q*p},0)}
 
-  function render(){
-    const cart = getCart();
-    document.getElementById("cartCount").textContent = cartCount(cart);
-    document.getElementById("total").textContent = cartTotal(cart);
+function render(){
+  const cart=getCart();
+  document.getElementById("cartCount").textContent=cartCount(cart);
+  document.getElementById("total").textContent=cartTotal(cart);
 
-    const box = document.getElementById("cartBox");
-    const emptyHint = document.getElementById("emptyHint");
-    if(cart.length === 0){
-      box.innerHTML = "";
-      emptyHint.style.display = "block";
-    } else {
-      emptyHint.style.display = "none";
-      box.innerHTML = cart.map((item, idx) => `
+  const box=document.getElementById("cartBox");
+  const emptyHint=document.getElementById("emptyHint");
+
+  if(cart.length===0){
+    box.innerHTML="";
+    emptyHint.style.display="block";
+  } else {
+    emptyHint.style.display="none";
+    box.innerHTML=cart.map((item,idx)=>{
+      const q=Number(item.qty)||1;
+      const p=Number(item.price)||0;
+      const sum=q*p;
+      return `
         <div class="row" style="padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)">
           <b>${item.name}</b>
-          <div class="price">${item.price} грн</div>
+          <div>${p} грн</div>
           <div class="qty">
-            <button data-act="dec" data-i="${idx}">−</button>
-            <span>${item.qty}</span>
-            <button data-act="inc" data-i="${idx}">+</button>
+            <button data-act="dec" data-i="${idx}" type="button">−</button>
+            <span>${q}</span>
+            <button data-act="inc" data-i="${idx}" type="button">+</button>
           </div>
-          <button class="remove" data-act="rm" data-i="${idx}">Видалити</button>
+          <div><b>${sum}</b> грн</div>
+          <button class="remove" data-act="rm" data-i="${idx}" type="button">Видалити</button>
         </div>
-      `).join("");
-    }
-
-    // Telegram checkout link
-    const lines = cart.map(i => `${i.name} × ${i.qty} = ${i.price*i.qty} грн`);
-    const text = encodeURIComponent(`Привіт! Хочу замовити:\n${lines.join("\n")}\n\nРазом: ${cartTotal(cart)} грн`);
-    document.getElementById("checkout").href = `https://t.me/${TG_USERNAME}?text=${text}`;
+      `;
+    }).join("");
   }
 
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-act]");
-    if(!btn) return;
-    const act = btn.dataset.act;
-    const i = Number(btn.dataset.i);
-    const cart = getCart();
-    if(!cart[i]) return;
+  const checkoutBtn=document.getElementById("checkoutBtn");
+  checkoutBtn.disabled = cart.length===0;
+  checkoutBtn.style.opacity = cart.length? "1" : ".5";
+}
 
-    if(act === "inc") cart[i].qty += 1;
-    if(act === "dec") { cart[i].qty -= 1; if(cart[i].qty <= 0) cart.splice(i,1); }
-    if(act === "rm") cart.splice(i,1);
+document.addEventListener("click",(e)=>{
+  const btn=e.target.closest("[data-act]");
+  if(!btn) return;
 
-    setCart(cart);
-    render();
-  });
+  const act=btn.dataset.act;
+  const i=Number(btn.dataset.i);
+  const cart=getCart();
+  if(!cart[i]) return;
 
-  document.getElementById("clear").addEventListener("click", () => {
-    setCart([]);
-    render();
-  });
+  if(act==="inc") cart[i].qty=(Number(cart[i].qty)||1)+1;
+  if(act==="dec"){ cart[i].qty=(Number(cart[i].qty)||1)-1; if(cart[i].qty<=0) cart.splice(i,1); }
+  if(act==="rm") cart.splice(i,1);
 
+  setCart(cart);
   render();
+});
+
+document.getElementById("clear").addEventListener("click",()=>{
+  setCart([]);
+  render();
+});
+
+/* Checkout modal */
+const modal=document.getElementById("checkoutModal");
+const checkoutBtn=document.getElementById("checkoutBtn");
+const form=document.getElementById("checkoutForm");
+
+function openModal(){
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden","false");
+}
+
+function closeModal(){
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden","true");
+}
+
+checkoutBtn.addEventListener("click",()=>{
+  const cart=getCart();
+  if(!cart.length){ alert("Кошик порожній 🙂"); return; }
+  openModal();
+});
+
+modal.addEventListener("click",(e)=>{
+  if(e.target.closest("[data-close]")) closeModal();
+});
+
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Escape" && modal.classList.contains("open")) closeModal();
+});
+
+form.addEventListener("submit",(e)=>{
+  e.preventDefault();
+
+  const cart=getCart();
+  if(!cart.length){ alert("Кошик порожній 🙂"); closeModal(); return; }
+
+  const name=document.getElementById("cName").value.trim();
+  const phone=document.getElementById("cPhone").value.trim();
+  const address=document.getElementById("cAddress").value.trim();
+  const pay=document.getElementById("cPay").value;
+  const note=document.getElementById("cNote").value.trim();
+
+  if(!TG_USERNAME || TG_USERNAME==="YOUR_USERNAME"){ alert("Вкажи TG_USERNAME у cart.html"); return; }
+
+  const lines=cart.map(i=>{
+    const q=Number(i.qty)||1;
+    const p=Number(i.price)||0;
+    return `${i.name} × ${q} = ${q*p} грн`;
+  });
+
+  const total=cartTotal(cart);
+
+  const msg =
+`Привіт! Хочу замовити:
+${lines.join("\n")}
+
+Разом: ${total} грн
+
+Ім’я: ${name}
+Телефон: ${phone}
+Адреса: ${address}
+Оплата: ${pay}${note?`\nКоментар: ${note}`:""}`;
+
+  const text=encodeURIComponent(msg);
+  window.open(`https://t.me/${TG_USERNAME}?text=${text}`,"_blank");
+  closeModal();
+});
+
+render();
 </script>
+
 </body>
 </html>
