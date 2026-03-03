@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кошик</title>
+  <style>
+    body{margin:0;font-family:system-ui,sans-serif;background:#f4f7f3;padding:24px}
+    .wrap{max-width:900px;margin:0 auto}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    a.back{display:inline-block;text-decoration:none;background:#2e7d32;color:#fff;padding:8px 14px;border-radius:10px;font-weight:700}
+    .card{background:#fff;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.08);padding:16px;margin-top:14px}
+    .row{display:grid;grid-template-columns:1fr 110px 140px 110px;gap:10px;align-items:center}
+    .row b{font-size:16px}
+    .qty{display:flex;gap:8px;align-items:center;justify-content:flex-start}
+    .qty button{width:32px;height:32px;border-radius:10px;border:1px solid rgba(0,0,0,.15);background:#fff;cursor:pointer;font-weight:800}
+    .remove{background:#fff;border:1px solid rgba(0,0,0,.15);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+    .total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-weight:800}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:12px;text-decoration:none;font-weight:800}
+    .btn-primary{background:#2e7d32;color:#fff}
+    .btn-ghost{background:#fff;border:1px solid rgba(0,0,0,.15);color:#1f2a1f}
+    .empty{color:#566; margin-top:14px}
+    @media (max-width:700px){ .row{grid-template-columns:1fr 120px;grid-auto-rows:auto} .row .price,.row .sum,.row .remove{justify-self:start} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="index.html">← Назад до магазину</a>
+      <div>🛒 Кошик: <span id="cartCount">0</span></div>
+    </div>
+
+    <div id="cartBox" class="card"></div>
+
+    <div class="card">
+      <div class="total">
+        <div>Разом:</div>
+        <div><span id="total">0</span> грн</div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ghost" id="clear">Очистити кошик</button>
+        <a class="btn btn-primary" id="checkout" href="#" target="_blank" rel="noopener">Оформити (Telegram)</a>
+      </div>
+      <div class="empty" id="emptyHint" style="display:none;">Кошик порожній. Додайте товари з каталогу 🙂</div>
+    </div>
+  </div>
+
+<script>
+  const TG_USERNAME = "USERNAME"; // <- заміни на Telegram юзернейм (без @)
+
+  function getCart(){ return JSON.parse(localStorage.getItem("cart") || "[]"); }
+  function setCart(cart){ localStorage.setItem("cart", JSON.stringify(cart)); }
+  function cartCount(cart){ return cart.reduce((s,i)=>s+i.qty,0); }
+  function cartTotal(cart){ return cart.reduce((s,i)=>s+i.qty*i.price,0); }
+
+  function render(){
+    const cart = getCart();
+    document.getElementById("cartCount").textContent = cartCount(cart);
+    document.getElementById("total").textContent = cartTotal(cart);
+
+    const box = document.getElementById("cartBox");
+    const emptyHint = document.getElementById("emptyHint");
+    if(cart.length === 0){
+      box.innerHTML = "";
+      emptyHint.style.display = "block";
+    } else {
+      emptyHint.style.display = "none";
+      box.innerHTML = cart.map((item, idx) => `
+        <div class="row" style="padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)">
+          <b>${item.name}</b>
+          <div class="price">${item.price} грн</div>
+          <div class="qty">
+            <button data-act="dec" data-i="${idx}">−</button>
+            <span>${item.qty}</span>
+            <button data-act="inc" data-i="${idx}">+</button>
+          </div>
+          <button class="remove" data-act="rm" data-i="${idx}">Видалити</button>
+        </div>
+      `).join("");
+    }
+
+    // Telegram checkout link
+    const lines = cart.map(i => `${i.name} × ${i.qty} = ${i.price*i.qty} грн`);
+    const text = encodeURIComponent(`Привіт! Хочу замовити:\n${lines.join("\n")}\n\nРазом: ${cartTotal(cart)} грн`);
+    document.getElementById("checkout").href = `https://t.me/${TG_USERNAME}?text=${text}`;
+  }
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-act]");
+    if(!btn) return;
+    const act = btn.dataset.act;
+    const i = Number(btn.dataset.i);
+    const cart = getCart();
+    if(!cart[i]) return;
+
+    if(act === "inc") cart[i].qty += 1;
+    if(act === "dec") { cart[i].qty -= 1; if(cart[i].qty <= 0) cart.splice(i,1); }
+    if(act === "rm") cart.splice(i,1);
+
+    setCart(cart);
+    render();
+  });
+
+  document.getElementById("clear").addEventListener("click", () => {
+    setCart([]);
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
